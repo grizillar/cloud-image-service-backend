@@ -1,10 +1,11 @@
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 const conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: 'webapp'
+  host: process.env.RDS_HOSTNAME,
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  database: process.env.RDS_DB_NAME,
+  port: process.env.RDS_PORT,
 });
 
 conn.connect();
