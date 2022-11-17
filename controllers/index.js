@@ -4,9 +4,9 @@ const { uploadfiletoS3 } = require("../services/aws");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/");
-  },
+  // destination: function (req, file, cb) {
+  //   cb(null, "./uploads/");
+  // },
   filename: function (req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
   },
@@ -23,10 +23,10 @@ exports.addImage = async (req, res, next) => {
   const file = req.file;
   console.log(file);
 
-  await uploadfiletoS3(file);
+  var result = await uploadfiletoS3(file);
 
   var date = new Date();
-  var path = req.file.path;
+  var path = `https://answersheet-image.s3.amazonaws.com/${result.Key}`;
   conn.query(
     "INSERT INTO answersheet (submitdate, path) VALUES(?,?)",
     [date, path],
